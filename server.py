@@ -4,11 +4,19 @@ app = Flask(__name__)
 @app.route("/")
 def index():
     mysql = connectToMySQL('first_flask')	        # call the function, passing in the name of our db
-    friends = mysql.query_db('SELECT * FROM friends;')  # call the query_db function, pass in the query as a string
+    friends = mysql.query_db("SELECT * FROM friends;")  # call the query_db function, pass in the query as a string
     print(friends)
-    newfriend = mysql.query_db("SELECT first_name FROM friends;")
-    print(friends)
+    # newfriend = mysql.query_db("SELECT * FROM friends WHERE first_name='emma';")
+    # print(friends)
     return render_template("index.html", friends=friends)
+
+@app.route("/create_friend", methods=["POST"])
+def add_friend_to_db():
+    print(request.form)
+    return redirect("/")
+
+
+
 
 if __name__ == "__main__":
     app.run(debug=True)
